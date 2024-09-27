@@ -27,9 +27,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # my apps
-    # "user",
-    # "article",
-    # "sort",
+    "user",
+    "article",
+    "sort",
 
     # 3rd party
     # "restframework"
