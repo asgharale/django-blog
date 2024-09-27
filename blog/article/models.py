@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 
 class Article(models.Model):
     STATUSES = (
@@ -37,6 +38,9 @@ class Article(models.Model):
 
     class Meta:
         ordering = ('last_modified',)
+    
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'address': self.address})
 
 
 
