@@ -44,7 +44,7 @@ class Article(models.Model):
 
 
 
-class BlogComment(models.Model):
+class Comment(models.Model):
     article = models.ForeignKey(to=Article, on_delete=models.CASCADE, related_name="comments")
     email = models.EmailField(max_length=200)
     full_name = models.CharField(max_length=200)
