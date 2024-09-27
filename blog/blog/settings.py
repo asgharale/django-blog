@@ -13,8 +13,10 @@ SECRET_KEY = 'django-insecure-5v5p-#2v_gcy@ca#cdu5z_+*7%$@lq9oxat9z5^*bo42n9*nzg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost"
+]
 
 # Application definition
 
@@ -27,12 +29,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # my apps
-    "user",
-    "article",
-    "sort",
+    "user.apps.UserConfig",
+    "article.apps.ArticleConfig",
+    "sort.apps.SortConfig",
 
     # 3rd party
-    # "restframework"
+    "rest_framework"
 ]
 
 MIDDLEWARE = [
@@ -111,9 +113,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-
+STATIC_URL = "static/"
+STATICFILES_DIRS = [
+        BASE_DIR / 'static'
+    ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# User Model
+AUTH_USER_MODEL = 'user.CUser'
+
+
+# media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'uploads'
