@@ -79,6 +79,3 @@ class CUser(AbstractBaseUser, PermissionsMixin):
 		return self.is_admin
 	def has_module_perms(self, app_label):
 		return self.is_admin
-
-	def get_absolute_url(self):
-		return reverse("user-detail", kwargs={"address": self.address})

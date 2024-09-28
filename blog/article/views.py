@@ -4,17 +4,19 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from rest_framework import status, generics
+from rest_framework.permissions import AllowAny
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Article
 from .serializers import ArticleSerializer
+from .filters import ArticleFilter
 
 class ArticleListView(generics.ListAPIView):
     queryset = Article.published.all()
-# class ArticleListView(APIView):
-#     def get(self, request, fromat=None):
-#         articles = Article.published.all()
-#         serializer = ArticleSerializer(articles, many=True)
-#         return Response(serializer.data)
+    serializer_class = ArticleSerializer
+    filter_backends = [DjangoFilterBackend]
+    permission_classes = [AllowAny]
+    filterset_class = ArticleFilter
 
 class ArticleDetailView(APIView):
     def get_object(self, slug):
