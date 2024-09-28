@@ -8,10 +8,6 @@ class Category(models.Model):
     
     def __str__(self):
         return self.name
-    
-    def get_absolute_url(self):
-        return reverse('cat-detail', kwargs={'address': self.address})
-
 
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -19,6 +15,3 @@ class Tag(models.Model):
     
     def __str__(self):
         return self.name
-    
-    def get_deferred_fields(self):
-        return reverse('tag-detail', kwargs={"address": self.address})

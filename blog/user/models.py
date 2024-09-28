@@ -38,6 +38,11 @@ class CUserManager(BaseUserManager):
 		user.save(using=self._db)
 		return user
 
+class CUserAdminManager(models.Manager):
+	def get_queryset(self):
+	    return super().get_queryset().filter(is_admin=True)
+
+
 class CUser(AbstractBaseUser, PermissionsMixin):
 	email = models.EmailField(unique=True, max_length=255)
 	username = models.SlugField(unique=True, max_length=255)
@@ -45,9 +50,10 @@ class CUser(AbstractBaseUser, PermissionsMixin):
 	last_name = models.CharField(max_length=255)
 	is_active = models.BooleanField(default=True)
 	is_admin = models.BooleanField(default=False)
- 
+
 	# custom user manager
 	objects = CUserManager()
+	admins = CUserAdminManager()
 
 	USERNAME_FIELD = "email"
 	REQUIRED_FIELDS = ["username", "first_name", "last_name"]
@@ -61,22 +67,18 @@ class CUser(AbstractBaseUser, PermissionsMixin):
 	github_id = models.CharField(blank=True, max_length=50)
 	twitt_id = models.CharField(blank=True, max_length=50)
 	Youtube_id = models.CharField(blank=True, max_length=50)
-
-	def __str__(self):
-		return self.username
-
-	def has_perm(self, perm, obj=None):
-		return self.is_admin
-
-	def has_module_perms(self, app_label):
-		return self.is_admin
-
 	@property
 	def is_staff(self):
 		return self.is_admin
 
+	def __str__(self):
+		return self.username
 	class Meta:
 		ordering = ('id',)
+	def has_perm(self, perm, obj=None):
+		return self.is_admin
+	def has_module_perms(self, app_label):
+		return self.is_admin
 
 	def get_absolute_url(self):
 		return reverse("user-detail", kwargs={"address": self.address})
