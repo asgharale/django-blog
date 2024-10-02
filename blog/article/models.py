@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
+import django_jalali.db.models as jmodels
 
 
 class PublishedManager(models.Manager):
@@ -28,8 +29,8 @@ class Article(models.Model):
     read_time = models.SmallIntegerField()
     views = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="liked")
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="viewed")
-    created_at = models.DateField()
-    last_modified = models.DateField(auto_now=True)
+    created_at = jmodels.jDateField()
+    last_modified = jmodels.jDateField(auto_now=True)
     open_conv = models.BooleanField(default=True, verbose_name="Open Converstaion")    
     @property
     def likes_count(self):
@@ -39,7 +40,7 @@ class Article(models.Model):
         return self.views.count()
 
     def __str__(self):
-        return self.title + " - " + self.address
+        return "%s - %s" % (self.title, self.address)
     class Meta:
         ordering = ('last_modified',)
 
@@ -59,6 +60,7 @@ class Comment(models.Model):
     email = models.EmailField(max_length=200)
     full_name = models.CharField(max_length=200)
     message = models.TextField(max_length=500)
+    created_at = jmodels.jDateField(auto_now_add=True)
     status = models.CharField(max_length=1, default='D', choices=STATUSES)
 
     # managers
@@ -66,4 +68,4 @@ class Comment(models.Model):
     published = PublishedManager()
 
     def __str__(self):
-        return f"{self.article.title} - {self.full_name} - {self.email}"
+        return "%s - %s - %s" % (self.article.title, self.full_name, self.email)

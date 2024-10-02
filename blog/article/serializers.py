@@ -4,7 +4,7 @@ from .models import Article, Comment
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = [
+        fields: list = [
             'title',
             'address',
             'meta',
@@ -23,9 +23,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = [
-            'article',
-            'email',
+        fields: list = [
             'full_name',
             'message'
         ]
