@@ -8,5 +8,4 @@ class ArticleFilter(django_filters.FilterSet):
             'title': ['exact', 'icontains'],
             'category': ['exact'],
             'author': ['exact'],
-            # 'price': ['lt', 'gt'],           # امکان فیلتر بر اساس قیمت (کمتر از یا بیشتر از)
         }
