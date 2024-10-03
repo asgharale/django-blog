@@ -5,6 +5,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('api/articles/', include("article.urls")),
+    path('api/sort/', include("sort.urls")),
+    path('api/user/', include("user.urls")),
     path('admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # static files
 
