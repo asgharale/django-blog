@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_filters",
     "django_jalali",
+    'ckeditor'
 ]
 
 MIDDLEWARE = [
@@ -114,10 +115,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
+STATIC_ROOT: str = BASE_DIR / 'static'
 STATIC_URL: str = "static/"
-STATICFILES_DIRS: list = [
-    BASE_DIR / "static",
-]
+# STATICFILES_DIRS: list = [
+#     BASE_DIR / "static",
+# ]
 
 
 # Default primary key field type
@@ -134,8 +136,11 @@ AUTH_USER_MODEL = 'user.CUser'
 MEDIA_URL: str = '/media/'
 MEDIA_ROOT: str = BASE_DIR / 'media'
 
-
+# DRF
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+
+# CKEDITOR
+CKEDITOR_UPLOAD_PATH = "content/"

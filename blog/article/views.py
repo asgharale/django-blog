@@ -6,6 +6,7 @@ from rest_framework import authentication, permissions
 from rest_framework import status, generics
 from rest_framework.permissions import AllowAny
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import status
 
 from .models import Article, Comment
 from .serializers import ArticleSerializer, ListArticleSerializer, CommentSerializer
@@ -53,3 +54,20 @@ class ArticleCommentListView(generics.ListAPIView):
         if slug:
             article = self.get_object(slug)
         return Comment.published.filter(article=article)
+
+class CommentView(APIView):
+    permission_classes: list = [AllowAny]
+
+    def get_object(self, slug):
+        try:
+            return Article.published.get(address=slug)
+        except Article.DoesNotExist:
+            raise Http404
+    def post(self, request):
+        serialzier = CommentSerializer(data=request.data)
+
+        if serialzier.is_valid():
+            serialzier.save()
+            return Response(serialzier.data, status=status.HTTP_201_CREATED)
+
+        return Response(serialzier.errors, status=status.HTTP_400_BAD_REQUEST)

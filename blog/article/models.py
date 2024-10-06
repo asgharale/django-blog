@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 import django_jalali.db.models as jmodels
-
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
@@ -19,16 +19,16 @@ class Article(models.Model):
     title = models.CharField(max_length=255)
     address = models.SlugField(max_length=255, unique=True)
     meta = models.TextField(max_length=400)
-    thumbnail = models.ImageField(upload_to="blog/thumbnails_%Y/", blank=True, max_length=255)
+    thumbnail = models.ImageField(upload_to="thumbnails_%Y/", blank=True, max_length=255)
     category = models.ManyToManyField("sort.Category", blank=True)
     tags = models.ManyToManyField("sort.Tag", blank=True)
-    body = models.TextField(blank=True, null=True)
+    body = RichTextUploadingField(blank=True, null=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     status = models.CharField(max_length=1, choices=STATUSES, default='D')
     read_time = models.SmallIntegerField()
     views = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="liked")
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="viewed")
-    created_at = jmodels.jDateField()
+    created_at = jmodels.jDateField(auto_now_add=True)
     last_modified = jmodels.jDateField(auto_now=True)
     open_conv = models.BooleanField(default=True, verbose_name="Open Converstaion")    
     @property
