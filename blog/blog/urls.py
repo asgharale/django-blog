@@ -9,11 +9,10 @@ urlpatterns = [
     path('api/user/', include("user.urls")),
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-]# + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # static files
+]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 
 # admin side custom
 admin.site.site_title = "بلاگ نمونه"
